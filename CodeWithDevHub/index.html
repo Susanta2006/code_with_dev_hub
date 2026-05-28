@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+    <title>Code With Fun Dev Hub</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        function handleImageError() {
+            const img = document.getElementById('curatorImg');
+            const fallback = document.getElementById('curatorFallback');
+            if (img) img.classList.add('hidden');
+            if (fallback) fallback.classList.remove('hidden');
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b1329;
+            scroll-behavior: smooth;
+        }
+        .glow-indigo {
+            box-shadow: 0 0 50px rgba(99, 102, 241, 0.15);
+        }
+        .glow-emerald {
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.12);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        /* FAQ Collapsible transitions */
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
+        .faq-active .faq-content {
+            max-height: 250px;
+            padding-top: 12px;
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Hardware Accelerated Smooth Tab & Modal Transitions */
+        .tab-transition {
+            animation: tabEntrance 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes tabEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Global Shimmer Overlay Animation */
+        @keyframes skeletonShimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        .skeleton-shimmer {
+            background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+            background-size: 200% 100%;
+            animation: skeletonShimmer 1.5s infinite linear;
+        }
+    </style>
+</head>
+<body class="text-slate-100 overflow-x-hidden min-h-screen flex flex-col justify-between">
+
+    <!-- GLOBAL SKELETON LOADING SCREEN OVERLAY -->
+    <div id="globalSkeletonScreen" class="fixed inset-0 z-50 bg-[#0b1329] flex flex-col justify-between transition-opacity duration-700 ease-in-out pointer-events-auto">
+        <!-- Skeleton Header Bar -->
+        <div class="h-20 border-b border-slate-800/80 px-4 md:px-8 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl skeleton-shimmer"></div>
+                <div class="space-y-1.5">
+                    <div class="w-40 h-4 rounded skeleton-shimmer"></div>
+                    <div class="w-20 h-2 rounded skeleton-shimmer"></div>
+                </div>
+            </div>
+            <div class="hidden lg:flex items-center gap-6">
+                <div class="w-24 h-4 rounded skeleton-shimmer"></div>
+                <div class="w-24 h-4 rounded skeleton-shimmer"></div>
+                <div class="w-24 h-4 rounded skeleton-shimmer"></div>
+            </div>
+            <div class="w-36 h-10 rounded-xl skeleton-shimmer"></div>
+        </div>
+
+        <!-- Skeleton Content Viewport -->
+        <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 flex-1 flex flex-col justify-center py-12 space-y-8">
+            <div class="space-y-4 text-center max-w-3xl mx-auto w-full">
+                <div class="w-48 h-6 rounded-full skeleton-shimmer mx-auto"></div>
+                <div class="w-full h-12 md:h-16 rounded-xl skeleton-shimmer mx-auto"></div>
+                <div class="w-3/4 h-6 rounded-md skeleton-shimmer mx-auto"></div>
+            </div>
+            <!-- Grid Representation -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 w-full">
+                <div class="h-64 rounded-2xl skeleton-shimmer"></div>
+                <div class="h-64 rounded-2xl skeleton-shimmer"></div>
+                <div class="h-64 rounded-2xl skeleton-shimmer"></div>
+            </div>
+        </div>
+
+        <!-- Skeleton Footer -->
+        <div class="h-20 border-t border-slate-800/80 px-4 md:px-8 flex items-center justify-between">
+            <div class="w-64 h-3 rounded skeleton-shimmer"></div>
+            <div class="w-32 h-3 rounded skeleton-shimmer"></div>
+        </div>
+    </div>
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-indigo-600 text-white text-[11px] md:text-xs py-2.5 px-4 text-center font-bold shadow-md flex items-center justify-center gap-2 relative z-50">
+        <span class="bg-indigo-800 text-[9px] uppercase font-extrabold px-2 py-0.5 rounded shrink-0 animate-pulse">MICRO PRICE DEALS</span>
+        <span class="truncate">🔥 Limited Time Offer: Student micro-packages with direct Google Drive access starting at just ₹49.</span>
+    </div>
+
+    <!-- MAIN NAVBAR -->
+    <nav class="sticky top-0 z-40 bg-[#0b1329]/95 backdrop-blur-md border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="bg-indigo-600 p-2.5 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                        <i class="fa-solid fa-graduation-cap text-xl text-white"></i>
+                    </div>
+                    <div>
+                        <span class="text-sm md:text-base font-extrabold tracking-tight bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">CODE WITH FUN DEV HUB</span>
+                        <span class="block text-[9px] text-indigo-400 font-bold uppercase tracking-wider">OFFICIAL BOOKSTORE</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Links (Desktop) -->
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="index.html" class="text-slate-300 hover:text-white font-medium transition text-sm">Home</a>
+                    <a href="#about-mission" class="text-slate-300 hover:text-white font-medium transition text-sm">Our Mission</a>
+                    <a href="#our-vision" class="text-slate-300 hover:text-white font-medium transition text-sm">Our Vision</a>
+                    <a href="#request-desk" class="text-slate-300 hover:text-white font-medium transition text-sm">Request a Book</a>
+                    <a href="#about-developer" class="text-slate-300 hover:text-white font-medium transition text-sm">About Founder</a>
+                    <a href="#faqs" class="text-slate-300 hover:text-white font-medium transition text-sm">FAQs</a>
+                </div>
+
+                <!-- Webstore Button & Mobile Toggle -->
+                <div class="flex items-center gap-3">
+                    <a href="https://pages.razorpay.com/stores/codewithfunDevHub" target="_self" 
+                        class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white font-bold px-4 md:px-5 py-2.5 rounded-xl transition duration-300 shadow-lg shadow-indigo-500/20 text-xs md:text-sm">
+                        <span>Visit Our Bookstore</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </a>
+                    
+                    <!-- Mobile Hamburger Button -->
+                    <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="lg:hidden p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40" aria-label="Toggle navigation menu">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOBILE MENU OVERLAY CONTAINER -->
+        <div id="mobileMenuDrawer" class="hidden lg:hidden w-full bg-[#0b1329] border-t border-slate-800/80 px-4 py-6 space-y-4 shadow-xl transition-all duration-300 ease-in-out">
+            <a href="index.html" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white font-medium transition text-sm py-2 px-3 hover:bg-slate-900 rounded-lg">Home</a>
+            <a href="#about-mission" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white font-medium transition text-sm py-2 px-3 hover:bg-slate-900 rounded-lg">Our Mission</a>
+            <a href="#our-vision" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white font-medium transition text-sm py-2 px-3 hover:bg-slate-900 rounded-lg">Our Vision</a>
+            <a href="#request-desk" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white font-medium transition text-sm py-2 px-3 hover:bg-slate-900 rounded-lg">Request a Book</a>
+            <a href="#about-developer" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white font-medium transition text-sm py-2 px-3 hover:bg-slate-900 rounded-lg">About Founder</a>
+            <a href="#faqs" onclick="toggleMobileMenu()" class="block text-slate-300 hover:text-white font-medium transition text-sm py-2 px-3 hover:bg-slate-900 rounded-lg">FAQs</a>
+            <a href="https://pages.razorpay.com/stores/codewithfunDevHub" target="_self" onclick="toggleMobileMenu()" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-blue-600 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider">
+                <span>Visit Our Bookstore</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="relative pt-12 pb-20 overflow-hidden border-b border-slate-800/60">
+        <!-- Ambient Decorative Glow -->
+        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Content Column -->
+                <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span>THE FUTURE OF HIGHLY AFFORDABLE DIGITAL EDUCATION</span>
+                    </div>
+                    
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                        Structured Study Guides <br>
+                        <span class="bg-gradient-to-r from-indigo-400 to-blue-400 bg-clip-text text-transparent">Priced for Every Learner.</span>
+                    </h1>
+                    
+                    <p class="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        Say goodbye to scattered forums, disorganized files, and overpriced academic references. Code With Fun Dev Hub offers cleanly indexed study companions, practical cookbooks, and blueprints across multiple educational and scientific disciplines.
+                    </p>
+
+                    <!-- Interactive CTAs -->
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                        <a href="#our-vision" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold px-6 py-3.5 rounded-xl transition duration-300 shadow-xl shadow-indigo-500/20 transform hover:-translate-y-0.5 text-xs uppercase tracking-wider text-center flex items-center justify-center">
+                            Explore Our Vision
+                        </a>
+                        <a href="https://pages.razorpay.com/stores/codewithfunDevHub" target="_self" class="border border-slate-700 hover:border-slate-500 bg-slate-900/40 backdrop-blur-md text-slate-300 hover:text-white font-bold px-6 py-3.5 rounded-xl transition duration-300 text-xs uppercase tracking-wider text-center flex items-center justify-center gap-2">
+                            <span>Visit Our Bookstore</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Hero Column -->
+                <div class="lg:col-span-5 relative">
+                    <div class="bg-slate-900 border border-slate-800 p-4 rounded-3xl shadow-2xl relative overflow-hidden group">
+                        <div class="flex items-center justify-between pb-3 border-b border-slate-800/80 mb-4 text-[11px] text-slate-400">
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-circle text-emerald-500 text-[8px]"></i> Official Webstore Verified</span>
+                            <span>Direct Drive Link Delivery</span>
+                        </div>
+                        
+                        <!-- Visual representation of store banner -->
+                        <div class="bg-white text-slate-900 p-6 rounded-2xl flex flex-col items-center justify-center text-center shadow-inner relative overflow-hidden min-h-[160px]">
+                            <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#4f46e5_1px,transparent_1px)] [background-size:12px_12px]"></div>
+                            <span class="text-[10px] tracking-wider uppercase font-black text-indigo-600 relative z-10">CODE WITH FUN</span>
+                            <h2 class="text-xl md:text-2xl font-black text-slate-900 tracking-tight leading-none uppercase mt-1 relative z-10">DEV HUB</h2>
+                            <p class="text-[9px] text-slate-600 font-bold max-w-xs mt-2 leading-relaxed relative z-10">Your Ultimate resource center for multi-disciplinary students & developers.</p>
+                            
+                            <!-- Inline graphics inside mockup -->
+                            <div class="flex justify-center flex-wrap gap-2 mt-4 relative z-10">
+                                <span class="bg-slate-100 border border-slate-200 text-slate-700 text-[8px] px-2 py-0.5 rounded font-extrabold flex items-center gap-1"><i class="fa-solid fa-book-medical text-indigo-500"></i> Subject Companions</span>
+                                <span class="bg-slate-100 border border-slate-200 text-slate-700 text-[8px] px-2 py-0.5 rounded font-extrabold flex items-center gap-1"><i class="fa-solid fa-bookmark text-emerald-500"></i> Cheat Sheets</span>
+                                <span class="bg-slate-100 border border-slate-200 text-slate-700 text-[8px] px-2 py-0.5 rounded font-extrabold flex items-center gap-1"><i class="fa-solid fa-gears text-blue-500"></i> Code Blueprints</span>
+                            </div>
+                        </div>
+
+                        <!-- Highlights -->
+                        <div class="grid grid-cols-3 gap-2 mt-4 text-center">
+                            <div class="bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/80">
+                                <span class="block text-xs font-bold text-white">Verified</span>
+                                <span class="text-[8px] text-slate-500 block">Autosynced folders</span>
+                            </div>
+                            <div class="bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/80">
+                                <span class="block text-xs font-bold text-emerald-400">Micro Pricing</span>
+                                <span class="text-[8px] text-slate-500 block">From ₹49 onwards</span>
+                            </div>
+                            <div class="bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/80">
+                                <span class="block text-xs font-bold text-indigo-400">Drive Sync</span>
+                                <span class="text-[8px] text-slate-500 block">Instant Email Access</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 1: THE BOOKSTORE VISION & ACCESSIBLE FIELDS -->
+    <section id="our-vision" class="py-20 bg-slate-950/45 border-b border-slate-800/60 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-indigo-500/5 to-transparent pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs uppercase font-extrabold text-indigo-400 tracking-wider font-bold">Our Vision</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2 mb-4">The Future of Digital Book & Affordable Knowledge</h2>
+                <p class="text-slate-400 text-sm max-w-2xl mx-auto">High-quality structured knowledge shouldn't cost a fortune. Code with Fun Dev Hub is a comprehensive cross-disciplinary visual repository that everyone can easily access and afford.</p>
+            </div>
+
+            <!-- Detailed Vision Features & Branches Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start max-w-6xl mx-auto">
+                <!-- Left: 5-6 Core Vision Bullet Points -->
+                <div class="lg:col-span-7 bg-slate-900/40 border border-slate-800/80 p-6 md:p-8 rounded-3xl space-y-6">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-compass text-indigo-400"></i> Core Pillars of Our Academic Mission
+                    </h3>
+                    
+                    <ul class="space-y-4 text-xs md:text-sm text-slate-300">
+                        <li class="flex items-start gap-3">
+                            <span class="w-5 h-5 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-check text-[10px]"></i></span>
+                            <div>
+                                <strong class="text-white">Zero Financial Barriers:</strong> Democratizing elite coursework reference guides, so academic potential is never limited by a student's financial budget.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-5 h-5 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-check text-[10px]"></i></span>
+                            <div>
+                                <strong class="text-white">Lifetime Cloud Auto-Sync:</strong> Standardize instant access to your cloud folders. Any future textbook revisions, extra chapters, or reference additions update automatically with no extra fees.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-5 h-5 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-check text-[10px]"></i></span>
+                            <div>
+                                <strong class="text-white">Optimized for Linear Learning:</strong> Curing research fatigue by translating dense, confusing university syllabi into visually indexed, progressive study maps.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-5 h-5 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-check text-[10px]"></i></span>
+                            <div>
+                                <strong class="text-white">Eliminating the Corporate Middleman:</strong> Bypassing traditional, overpriced printing and publishing systems, allowing pure student-friendly micro-pricing.
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-5 h-5 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-check text-[10px]"></i></span>
+                            <div>
+                                <strong class="text-white">Completely Cross-Disciplinary:</strong> Refusing to isolate sciences from arts. Supporting technical programmers, medical graduates, structural engineers, and general humanities students alike.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Right: "We Provide Books or roadmaps for" Branches -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="bg-indigo-600/10 border border-indigo-500/20 p-6 md:p-8 rounded-3xl">
+                        <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest block mb-1">COMPREHENSIVE COVERAGE</span>
+                        <h3 class="text-lg font-bold text-white mb-4">We Provide Books or roadmaps for:</h3>
+                        
+                        <div class="space-y-3.5">
+                            <div class="flex items-center gap-3 text-xs text-slate-300 bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                                <i class="fa-solid fa-brain text-indigo-400 text-sm shrink-0 w-5 text-center"></i>
+                                <span><strong class="text-white">AI & Computer Science:</strong> Deep Learning architectures, Neural Network math, LLMs, algorithmic syntax, and hands-on coding cookbooks.</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300 bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                                <i class="fa-solid fa-microchip text-emerald-400 text-sm shrink-0 w-5 text-center"></i>
+                                <span><strong class="text-white">Engineering Branches:</strong> Mechanical dynamics, electrical circuits, civil structures, electronics formulas, and thermodynamic notes.</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300 bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                                <i class="fa-solid fa-heart-pulse text-red-400 text-sm shrink-0 w-5 text-center"></i>
+                                <span><strong class="text-white">Medical & Life Sciences:</strong> Anatomy reference maps, pharmaceutical guidelines, biological system trees, and clinical study references.</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300 bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                                <i class="fa-solid fa-book-open text-purple-400 text-sm shrink-0 w-5 text-center"></i>
+                                <span><strong class="text-white">Humanities & Business:</strong> Economic theories, historical timelines, management summaries, literature matrices, and psychological outlines.</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300 bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                                <i class="fa-solid fa-graduation-cap text-amber-400 text-sm shrink-0 w-5 text-center"></i>
+                                <span><strong class="text-white">Competitive Exams:</strong> Structured syllabi for UPSC, GATE, CAT, and other competitive examinations simplified into high-recall maps.</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-xs text-slate-300 bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
+                                <i class="fa-solid fa-wand-magic-sparkles text-pink-400 text-sm shrink-0 w-5 text-center"></i>
+                                <span><strong class="text-white">Professional & Soft Skills:</strong> Non-academic guides on public speaking, financial literacy, time management, and modern professional workflows.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: INTERACTIVE BOOK REQUEST DESK -->
+    <section id="request-desk" class="py-20 border-b border-slate-800/60 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs uppercase font-extrabold text-emerald-400 tracking-wider font-bold">HAVE A SPECIFIC SYLLABUS IN MIND?</span>
+                <h2 class="text-3xl font-extrabold text-white mt-1">Syllabus Companion Request Desk</h2>
+                <p class="text-slate-400 text-sm mt-2">If we don't have your specific course blueprint in our catalog yet, tell us! We compile requested syllabus notes and textbooks into beautifully formatted micro-priced companions.</p>
+            </div>
+
+            <div class="max-w-xl mx-auto bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-3xl shadow-xl glow-indigo">
+                <form id="bookRequestForm" action="https://api.web3forms.com/submit" method="POST" onsubmit="handleAjaxSubmit(event, 'requestSuccess')" class="space-y-4">
+                    <!-- WEB3FORMS CONFIGURATION -->
+                    <input type="hidden" name="access_key" value="a93bbdc9-46ea-4f5b-ad4b-7b880a133256">
+                    <input type="hidden" name="subject" value="New Syllabus Companion Request Form Submission">
+                    <input type="hidden" name="from_name" value="Code With Fun Dev Hub">
+                    
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-400 mb-1.5">Syllabus Title/Topic or Book:</label>
+                        <input type="text" name="Syllabus Title" required placeholder="e.g. Applied Thermodynamics, Clinical Pharmacology..." 
+                               class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-400 mb-1.5">Discipline / Academic Field:</label>
+                        <select name="Discipline Field" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 transition">
+                            <option value="Computer Science / AI">Computer Science / Artificial Intelligence</option>
+                            <option value="Medical & Biological Sciences">Medical & Biological Sciences</option>
+                            <option value="Mechanical & Structural Engineering">Mechanical / Civil Engineering</option>
+                            <option value="Electrical & Electronics">Electrical / Electronics Engineering</option>
+                            <option value="Humanities & Economics">Humanities, Economics & General Arts</option>
+                            <option value="Other Multi-Disciplinary">Other Disciplines</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-400 mb-1.5">Your Academic Institution:</label>
+                        <input type="text" name="Institution" required placeholder="e.g. IIT Jodhpur, Medical College Kolkata..." 
+                               class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-400 mb-1.5">Additional Context or Custom Chapters Needed:</label>
+                        <textarea name="Additional Details" rows="3" placeholder="Provide links or names of chapters you want covered..." 
+                                  class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition duration-300 shadow-lg shadow-indigo-500/20">
+                        Submit Request to Hub
+                    </button>
+                </form>
+                
+                <!-- Success Message -->
+                <div id="requestSuccess" class="hidden mt-4 p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs rounded-xl text-center font-bold">
+                    <i class="fa-solid fa-circle-check mr-1.5"></i> Request registered! We'll evaluate your syllabus and add it to the bookstore shelf.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MISSION & VALUE PROPOSITION -->
+    <section id="about-mission" class="py-20 border-b border-slate-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs uppercase font-extrabold text-indigo-400 tracking-wider font-bold">OUR MISSION</span>
+                <h2 class="text-3xl font-extrabold text-white mt-1">Direct, Clean Knowledge Infrastructure</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                <!-- Pain points -->
+                <div class="bg-slate-900/30 border border-slate-800 p-8 rounded-3xl flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-200 mb-6 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-exclamation text-amber-500"></i> The Academic Study Trap
+                        </h3>
+                        <ul class="space-y-4 text-sm text-slate-400">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-xmark text-red-500 mt-1"></i>
+                                <span><strong>Unstructured Frameworks:</strong> Spending valuable study hours trying to filter, map, and clean raw textbooks or slide images instead of practicing active coding or core derivations.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-xmark text-red-500 mt-1"></i>
+                                <span><strong>Premium Pricing Traps:</strong> Basic developer workflows, chemical formulas, medical matrices, and exam summaries locked behind expensive monthly memberships.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-xmark text-red-500 mt-1"></i>
+                                <span><strong>Cross-Disciplinary Barriers:</strong> Hard to find cross-boundary visual resources that connect tech with pure sciences, arts, or humanities easily under one store.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Solution -->
+                <div class="bg-slate-900/80 border border-indigo-500/20 p-8 rounded-3xl flex flex-col justify-between glow-indigo">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                            <i class="fa-solid fa-certificate text-emerald-500"></i> The Code With Fun Difference
+                        </h3>
+                        <ul class="space-y-4 text-sm text-slate-300">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+                                <span><strong>Meticulously Formatted Files:</strong> Structured sequentially week-by-week so you learn linearly. Simple, high-quality, and highly downloadable offline.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+                                <span><strong>Direct Google Drive Handlers:</strong> Secure checkout pipeline delivers immediate access paths straight to safe cloud storage.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+                                <span><strong>Micro-Pricing (Up to 80%+ OFF):</strong> Flat pricing model designed explicitly to empower students, with lifetime updates included in the folder.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: FOUNDER / DEVELOPER BIOGRAPHY (SB) -->
+    <section id="about-developer" class="py-20 bg-slate-950/40 border-t border-slate-800/60 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs uppercase font-extrabold text-indigo-400 tracking-wider font-bold">ABOUT THE FOUNDER</span>
+                <h2 class="text-3xl font-extrabold text-white mt-1">Susanta Banik (SB)</h2>
+                <p class="text-slate-400 text-sm mt-2">AI/ML Engineer, Data Scientist, Researcher, and Full Stack Developer. Building intelligence, thoughtfully.</p>
+            </div>
+
+            <!-- Profile Summary & Navigation Details -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+                
+                <!-- Left Card: Bio and Key Highlights -->
+                <div class="lg:col-span-4 bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-6 relative overflow-hidden">
+                    <!-- Photo with direct fallback image frame -->
+                    <div class="w-full aspect-square rounded-2xl overflow-hidden border-2 border-indigo-500/30 shadow-2xl relative bg-slate-950 flex items-center justify-center">
+                        <img id="curatorImg" src="asset/myphoto.jpeg" alt="Susanta Banik" class="w-full h-full object-cover" onerror="handleImageError()">
+                        <!-- Fallback Design -->
+                        <div id="curatorFallback" class="hidden flex flex-col items-center justify-center text-center p-4">
+                            <i class="fa-solid fa-user-tie text-6xl text-indigo-400 mb-3"></i>
+                            <span class="text-base font-bold text-white uppercase tracking-widest block">Susanta Banik</span>
+                            <span class="text-xs text-slate-500">Developer & Researcher</span>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0b1329]/80 to-transparent pointer-events-none"></div>
+                    </div>
+
+                    <!-- Quick Facts Grid -->
+                    <div class="grid grid-cols-2 gap-3 text-center">
+                        <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
+                            <!-- Dynamic Age calculated dynamically via JS (Not hardcoded) -->
+                            <span class="block text-xl font-extrabold text-white animate-pulse" id="sb-age">&nbsp;</span>
+                            <span class="text-[9px] text-slate-500 block uppercase">Age</span>
+                        </div>
+                        <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
+                            <span class="block text-xl font-extrabold text-indigo-400">Dual</span>
+                            <span class="text-[9px] text-slate-500 block uppercase">Degrees</span>
+                        </div>
+                        <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
+                            <span class="block text-xl font-extrabold text-emerald-400">20+</span>
+                            <span class="text-[9px] text-slate-500 block uppercase">Shipped Projects</span>
+                        </div>
+                        <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
+                            <span class="block text-xl font-extrabold text-purple-400">30+</span>
+                            <span class="text-[9px] text-slate-500 block uppercase">Certifications</span>
+                        </div>
+                    </div>
+
+                    <!-- Direct Social Profiles Grid -->
+                    <div class="space-y-2 pt-4 border-t border-slate-800">
+                        <span class="text-[10px] text-slate-500 uppercase tracking-widest font-bold block mb-2">Verified Handles</span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <a href="https://linkedin.com/in/susanta-banik" target="_blank" class="flex items-center gap-1.5 bg-slate-950 hover:bg-indigo-950/30 text-slate-300 hover:text-indigo-400 border border-slate-800 p-2 rounded-xl text-[10px] transition font-bold truncate">
+                                <i class="fa-brands fa-linkedin text-indigo-500"></i> LinkedIn ↗
+                            </a>
+                            <a href="https://github.com/Susanta2006" target="_blank" class="flex items-center gap-1.5 bg-slate-950 hover:bg-indigo-950/30 text-slate-300 hover:text-indigo-400 border border-slate-800 p-2 rounded-xl text-[10px] transition font-bold truncate">
+                                <i class="fa-brands fa-github text-slate-300"></i> GitHub ↗
+                            </a>
+                            <a href="https://x.com/SusantaBan21" target="_blank" class="flex items-center gap-1.5 bg-slate-950 hover:bg-indigo-950/30 text-slate-300 hover:text-indigo-400 border border-slate-800 p-2 rounded-xl text-[10px] transition font-bold truncate">
+                                <i class="fa-brands fa-x-twitter text-slate-300"></i> X / Twitter ↗
+                            </a>
+                            <a href="https://youtube.com/@codewithfun-life" target="_blank" class="flex items-center gap-1.5 bg-slate-950 hover:bg-indigo-950/30 text-slate-300 hover:text-indigo-400 border border-slate-800 p-2 rounded-xl text-[10px] transition font-bold truncate">
+                                <i class="fa-brands fa-youtube text-red-500"></i> YouTube ↗
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side: Detailed Navigation and Multi-Tab Info Card -->
+                <div class="lg:col-span-8 space-y-6">
+                    <!-- Tab Headers - scrollable on mobile screen frames -->
+                    <div class="flex overflow-x-auto whitespace-nowrap border-b border-slate-800 gap-2 pb-1 scrollbar-none custom-scrollbar">
+                        <button onclick="switchSBTab('sb-about')" id="btn-sb-about" class="sb-tab-btn inline-block px-4 py-3 text-xs sm:text-sm font-bold border-b-2 border-indigo-500 text-white transition">
+                            01 — About
+                        </button>
+                        <button onclick="switchSBTab('sb-services')" id="btn-sb-services" class="sb-tab-btn inline-block px-4 py-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-white transition">
+                            02 — Services
+                        </button>
+                        <button onclick="switchSBTab('sb-education')" id="btn-sb-education" class="sb-tab-btn inline-block px-4 py-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-white transition">
+                            03 — Education
+                        </button>
+                        <button onclick="switchSBTab('sb-skills')" id="btn-sb-skills" class="sb-tab-btn inline-block px-4 py-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-white transition">
+                            04 — Skills
+                        </button>
+                        <button onclick="switchSBTab('sb-projects')" id="btn-sb-projects" class="sb-tab-btn inline-block px-4 py-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-white transition">
+                            05 — Projects
+                        </button>
+                        <button onclick="switchSBTab('sb-research')" id="btn-sb-research" class="sb-tab-btn inline-block px-4 py-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-white transition">
+                            06 — Research
+                        </button>
+                        <button onclick="switchSBTab('sb-certifications')" id="btn-sb-certifications" class="sb-tab-btn inline-block px-4 py-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-white transition">
+                            07 — Certifications
+                        </button>
+                    </div>
+
+                    <!-- Tab Contents Block -->
+                    <div class="bg-slate-900 border border-slate-800 p-6 md:p-8 rounded-3xl min-h-[380px]">
+                        
+                        <!-- TAB: 01 — About -->
+                        <div id="sb-about" class="sb-tab-content tab-transition space-y-6">
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-2">Building intelligence, thoughtfully.</h3>
+                                <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                                    I am an AI/ML Engineer, Data Scientist, Full Stack Developer, and Researcher. Currently pursuing a unique dual academic path spanning an online **B.S. in Applied AI & Data Science from the Indian Institute of Technology, Jodhpur (IITJ)** and a traditional offline **B.Tech in Artificial Intelligence & Data Science at Techno College of Engineering, Agartala**.
+                                </p>
+                                <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                                    The two tracks have shaped how I think: one teaches me to reason deeply, the other to ship quickly. My work sits where machine learning meets real products. I move between TensorFlow notebooks, Python services, Power BI dashboards and full stack web applications — comfortable rebuilding the pipeline end-to-end when a problem deserves it.
+                                </p>
+                                <p class="text-slate-300 text-sm leading-relaxed">
+                                    Alongside academic work, I run Code with Fun Dev Hub — an affordable online bookstore for students and developers, with every book priced to be genuinely accessible. I also take on freelance work building apps, websites, and AI tools for clients.
+                                </p>
+                            </div>
+
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-slate-800 text-center">
+                                <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-xl">
+                                    <span class="block text-xs font-bold text-white">Dual Degree</span>
+                                    <span class="text-[9px] text-slate-500">IIT Jodhpur + Techno</span>
+                                </div>
+                                <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-xl">
+                                    <span class="block text-xs font-bold text-white">4 Completed</span>
+                                    <span class="text-[9px] text-slate-500">Internships</span>
+                                </div>
+                                <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-xl">
+                                    <span class="block text-xs font-bold text-white">2 Indexed</span>
+                                    <span class="text-[9px] text-slate-500">Publications</span>
+                                </div>
+                                <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-xl">
+                                    <span class="block text-xs font-bold text-white">Active Sites</span>
+                                    <span class="text-[9px] text-slate-500">GitHub & ResearchGate</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB: 02 — Services -->
+                        <div id="sb-services" class="sb-tab-content tab-transition hidden space-y-6">
+                            <h3 class="text-lg font-bold text-white">Available for freelance and contract work.</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="p-4 bg-slate-950 rounded-xl border border-slate-800">
+                                    <h4 class="text-xs font-bold text-indigo-400 uppercase tracking-widest mb-1.5">AI / ML Solutions</h4>
+                                    <p class="text-xs text-slate-400 leading-relaxed">Custom models, fine-tuning, LLM agents, forecasting pipelines, and computer vision model setups inside your products.</p>
+                                </div>
+                                <div class="p-4 bg-slate-950 rounded-xl border border-slate-800">
+                                    <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-1.5">Full Stack Web Apps</h4>
+                                    <p class="text-xs text-slate-400 leading-relaxed">End-to-end responsive websites and web applications using modern stacks: React, Tailwind, PHP, and MySQL backends.</p>
+                                </div>
+                                <div class="p-4 bg-slate-950 rounded-xl border border-slate-800">
+                                    <h4 class="text-xs font-bold text-blue-400 uppercase tracking-widest mb-1.5">Mobile-Ready Apps</h4>
+                                    <p class="text-xs text-slate-400 leading-relaxed">Responsive, installable Progressive Web Apps (PWAs) optimized with offline UX structures.</p>
+                                </div>
+                                <div class="p-4 bg-slate-950 rounded-xl border border-slate-800">
+                                    <h4 class="text-xs font-bold text-purple-400 uppercase tracking-widest mb-1.5">Data & Analytics</h4>
+                                    <p class="text-xs text-slate-400 leading-relaxed">Power BI dashboards, ETL pipelines with Pandas/NumPy, and analytical reports for commercial decisions.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB: 03 — Education -->
+                        <div id="sb-education" class="sb-tab-content tab-transition hidden space-y-6">
+                            <h3 class="text-lg font-bold text-white">Two institutions. One trajectory.</h3>
+                            <div class="space-y-4">
+                                <div class="p-4 bg-slate-950 rounded-xl border border-slate-800">
+                                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
+                                        <h4 class="text-sm font-bold text-white">B.S. in Applied AI & Data Science</h4>
+                                        <span class="bg-indigo-500/10 text-indigo-400 text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider mt-1 sm:mt-0">IIT Jodhpur Alumnus Network</span>
+                                    </div>
+                                    <p class="text-xs text-slate-400">Indian Institute of Technology, Jodhpur</p>
+                                </div>
+                                <div class="p-4 bg-slate-950 rounded-xl border border-slate-800">
+                                    <h4 class="text-sm font-bold text-white mb-1">B.Tech in Artificial Intelligence & Data Science</h4>
+                                    <p class="text-xs text-slate-400">Techno College of Engineering, Agartala</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB: 04 — Skills -->
+                        <div id="sb-skills" class="sb-tab-content tab-transition hidden space-y-6">
+                            <h3 class="text-lg font-bold text-white">Tools of the craft.</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                                <div class="space-y-2">
+                                    <h4 class="text-xs font-bold text-indigo-400 uppercase tracking-widest">AI & Deep Learning</h4>
+                                    <ul class="text-xs text-slate-400 space-y-1 font-medium font-mono">
+                                        <li>• TensorFlow (LSTM, CNN)</li>
+                                        <li>• PyTorch (MLP, RNNs)</li>
+                                        <li>• Model Evaluation Metrics</li>
+                                        <li>• Prompt Engineering</li>
+                                    </ul>
+                                </div>
+                                <div class="space-y-2">
+                                    <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-widest">Data Science</h4>
+                                    <ul class="text-xs text-slate-400 space-y-1 font-medium font-mono">
+                                        <li>• Pandas / NumPy</li>
+                                        <li>• Matplotlib / Seaborn</li>
+                                        <li>• Power BI Dashboards</li>
+                                        <li>• Statistical Modeling</li>
+                                    </ul>
+                                </div>
+                                <div class="space-y-2">
+                                    <h4 class="text-xs font-bold text-blue-400 uppercase tracking-widest">Web Development</h4>
+                                    <ul class="text-xs text-slate-400 space-y-1 font-medium font-mono">
+                                        <li>• JavaScript (ES6+)</li>
+                                        <li>• PHP / MySQL</li>
+                                        <li>• Tailwind CSS</li>
+                                        <li>• Git / Version Control</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB: 05 — Projects -->
+                        <div id="sb-projects" class="sb-tab-content tab-transition hidden space-y-6">
+                            <h3 class="text-lg font-bold text-white">Projects Portfolio</h3>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                Complete catalog of shipped builds, hackathons, and software engineering blueprints.
+                            </p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
+                                <!-- Group 1: AI & Python -->
+                                <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
+                                    <h4 class="text-xs font-bold text-indigo-400 uppercase tracking-widest">AI, ML & Python Systems</h4>
+                                    <ul class="space-y-2.5 text-xs text-slate-300">
+                                        <li>
+                                            <span class="block font-bold text-white">OpenAI Kaggle Hackathons</span>
+                                            <span class="text-[10px] text-slate-500">OpenAI models applied in Kaggle dataset exploration.</span>
+                                        </li>
+                                        <li>
+                                            <span class="block font-bold text-white">Restaurant Rate Predictor</span>
+                                            <span class="text-[10px] text-slate-500">Predictive framework finding top 10 influential features in food rates.</span>
+                                        </li>
+                                        <li>
+                                            <span class="block font-bold text-white">Stock Market Predictor</span>
+                                            <span class="text-[10px] text-slate-500">Time-series modeling relying on TensorFlow LSTM structures.</span>
+                                        </li>
+                                        <li>
+                                            <span class="block font-bold text-white">Auto Writer</span>
+                                            <span class="text-[10px] text-slate-500">Automates text loops and triggers messages recursively.</span>
+                                        </li>
+                                        <li>
+                                            <span class="block font-bold text-white">Quiz Game with LSTM</span>
+                                            <span class="text-[10px] text-slate-500">Terminal interface saving user preferences dynamically to CSV logs.</span>
+                                        </li>
+                                        <li>
+                                            <span class="block font-bold text-white">Credit Card Fraud Detection</span>
+                                            <span class="text-[10px] text-slate-500">Anomalous classification modeling across financial patterns.</span>
+                                        </li>
+                                        <li>
+                                            <span class="block font-bold text-white">AI Jarvis Expressive Assistant</span>
+                                            <span class="text-[10px] text-slate-500">A generative model with biologically-inspired behavioral elements.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- Group 2: Web & Databases -->
+                                <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
+                                    <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-widest">Web Development & Portals</h4>
+                                    <ul class="space-y-2.5 text-xs text-slate-300">
+                                        <li>
+                                            <span class="block font-bold text-white">Digital Panchayat Portal</span>
+                                            <span class="text-[10px] text-slate-500">E-governance system providing rural access and applications tracking.</span>
+                                        </li>
+                                        <li>
+                                            <span class="block font-bold text-white">School DBMS</span>
+                                            <span class="text-[10px] text-slate-500">Secure student and grade tracking relational database systems.</span>
+                                        </li>
+                                        <li>
+                                            <span class="block font-bold text-white">Exam Portal Application</span>
+                                            <span class="text-[10px] text-slate-500">Interactive examination console with timer validations.</span>
+                                        </li>
+                                        <li>
+                                            <span class="block font-bold text-white">E-Commerce Shopping Platform</span>
+                                            <span class="text-[10px] text-slate-500">Complete cart, product inventory, and checkout mapping structure.</span>
+                                        </li>
+                                        <li>
+                                            <span class="block font-bold text-white">SOS Emergency System</span>
+                                            <span class="text-[10px] text-slate-500">Location-triggered response signaling system for emergencies.</span>
+                                        </li>
+                                        <li>
+                                            <span class="block font-bold text-white">Student-Teacher Appointment System</span>
+                                            <span class="text-[10px] text-slate-500">Booking coordinator utilizing responsive calendar schedules.</span>
+                                        </li>
+                                        <li>
+                                            <span class="block font-bold text-white">Language Translation API Tool</span>
+                                            <span class="text-[10px] text-slate-500">Responsive translation pipeline connecting to live languages.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB: 06 — Research -->
+                        <div id="sb-research" class="sb-tab-content tab-transition hidden space-y-4">
+                            <h3 class="text-lg font-bold text-white">Published Academic Work</h3>
+                            
+                            <div class="space-y-4">
+                                <!-- Paper 2 (New Preprint) -->
+                                <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 space-y-3">
+                                    <span class="bg-indigo-500/10 text-indigo-400 text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">PREPRINT • RESEARCHGATE INDEXED</span>
+                                    <h4 class="text-sm font-bold text-white leading-relaxed">"Jarvis-v9: A Continual-Learning Synthetic AGI with Biologically-Inspired Generative Architecture, Persistent Memory, and Nine Cognitive Engines"</h4>
+                                    <div class="text-xs text-slate-400">
+                                        <span class="block"><strong>DOI:</strong> 10.13140/RG.2.2.12547.05921</span>
+                                        <span class="block"><strong>Author:</strong> Susanta Banik</span>
+                                    </div>
+                                    <div class="pt-1 flex gap-4 text-xs font-bold text-indigo-400">
+                                        <a href="https://doi.org/10.13140/RG.2.2.12547.05921" target="_blank" class="hover:underline flex items-center gap-1">
+                                            <span>Read on ResearchGate</span> <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Paper 1 -->
+                                <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 space-y-3">
+                                    <span class="bg-indigo-500/10 text-indigo-400 text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">PAPER • IJSR INDEXED</span>
+                                    <h4 class="text-sm font-bold text-white leading-relaxed">"Emergent Social Consciousness in a Minimalist Conversational Agent: A Case Study"</h4>
+                                    <div class="text-xs text-slate-400">
+                                        <span class="block"><strong>Paper ID:</strong> MR251206000138</span>
+                                        <span class="block"><strong>Author:</strong> Susanta Banik</span>
+                                    </div>
+                                    <div class="pt-1 flex gap-4 text-xs font-bold text-indigo-400">
+                                        <a href="https://www.ijsr.net/getabstract.php?paperid=MR251206000138" target="_blank" class="hover:underline flex items-center gap-1">
+                                            <span>Read on ResearchGate</span> <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB: 07 — Certifications -->
+                        <div id="sb-certifications" class="sb-tab-content tab-transition hidden space-y-4">
+                            <h3 class="text-lg font-bold text-white">Verified Credentials</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                                    <span class="font-bold text-indigo-400 block">Microsoft</span>
+                                    <span class="text-slate-300">Microsoft Certified: Azure AI Engineer Associate</span>
+                                </div>
+                                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                                    <span class="font-bold text-indigo-400 block">TATA FORGE</span>
+                                    <span class="text-slate-300">TATA Gen AI Powered Data Analytics Job Simulation</span>
+                                </div>
+                                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                                    <span class="font-bold text-indigo-400 block">ISRO</span>
+                                    <span class="text-slate-300">Remote Sensing & Deep Learning Application</span>
+                                </div>
+                                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                                    <span class="font-bold text-indigo-400 block">IBM</span>
+                                    <span class="text-slate-300">Hadoop & Spark Analytics Systems Certification</span>
+                                </div>
+                                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                                    <span class="text-slate-300">Check out my LinkedIn for more</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUTHFUL FLOW STEPS -->
+    <section id="delivery" class="py-20 bg-slate-950/20 border-t border-slate-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs uppercase font-extrabold text-indigo-400 tracking-wider font-bold">OUR CHECKOUT PIPELINE</span>
+                <h2 class="text-3xl font-extrabold text-white mt-1">Simple, Transparent Delivery Flow</h2>
+                <p class="text-slate-400 text-sm">How your digital resources reach you seamlessly once purchased.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                <!-- Step 1 -->
+                <div class="p-8 bg-slate-900/40 border border-slate-800 rounded-2xl relative">
+                    <span class="text-3xl font-black text-indigo-500/20">01</span>
+                    <h3 class="text-lg font-bold text-white mt-2 mb-2">Select Your Bundle</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">Choose the specific roadmap, visual cheat sheet, or companion folder that coordinates with your learning objectives.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="p-8 bg-slate-900/40 border border-slate-800 rounded-2xl relative">
+                    <span class="text-3xl font-black text-indigo-500/20">02</span>
+                    <h3 class="text-lg font-bold text-white mt-2 mb-2">Checkout on Webstore</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">Complete your purchase safely using UPI, Cards, or NetBanking directly on our official webstore page.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="p-8 bg-slate-900/40 border border-slate-800 rounded-2xl relative">
+                    <span class="text-3xl font-black text-indigo-500/20">03</span>
+                    <h3 class="text-lg font-bold text-white mt-2 mb-2">Verified Direct Email</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">An automated email drops directly into your billing inbox with clean, direct download links to the files on Google Drive.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQS -->
+    <section id="faqs" class="py-20 bg-slate-950/30 border-t border-slate-800/60 font-medium">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 font-medium">
+            <h2 class="text-3xl font-extrabold text-white text-center mb-10">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                
+                <!-- FAQ 1 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 cursor-pointer" onclick="toggleAccordion(this)">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-indigo-400"></i> How do I access my resources after payment?
+                        </h4>
+                        <i class="fa-solid fa-chevron-down text-slate-500 faq-icon text-xs"></i>
+                    </div>
+                    <div class="faq-content text-xs text-slate-400 leading-relaxed">
+                        Once your checkout completes, you are instantly redirected to the download links, and an automated email containing your secure Google Drive folders will be delivered directly to the address used during billing.
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 cursor-pointer" onclick="toggleAccordion(this)">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-indigo-400"></i> Are the files downloadable and readable offline?
+                        </h4>
+                        <i class="fa-solid fa-chevron-down text-slate-500 faq-icon text-xs"></i>
+                    </div>
+                    <div class="faq-content text-xs text-slate-400 leading-relaxed">
+                        Yes! All files are formatted as high-resolution, lightweight PDFs. You can download and save them onto your laptop, mobile phone, tablet, or e-reader device for completely offline reading.
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 cursor-pointer" onclick="toggleAccordion(this)">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-indigo-400"></i> Is the payment process completely secure?
+                        </h4>
+                        <i class="fa-solid fa-chevron-down text-slate-500 faq-icon text-xs"></i>
+                    </div>
+                    <div class="faq-content text-xs text-slate-400 leading-relaxed">
+                        Absolutely. All transactions are securely handled directly by Razorpay (India's leading payment gateway provider). We accept Cards, NetBanking, and UPI (GPay, PhonePe, Paytm). We never access, store, or record your financial credentials.
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 cursor-pointer" onclick="toggleAccordion(this)">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-indigo-400"></i> Will I receive free updates if a resource is updated?
+                        </h4>
+                        <i class="fa-solid fa-chevron-down text-slate-500 faq-icon text-xs"></i>
+                    </div>
+                    <div class="faq-content text-xs text-slate-400 leading-relaxed">
+                        Yes. Since the materials are delivered via shared Google Drive folders, any new additions, chapter summaries, or revision guides will immediately sync in your folder without requiring any extra payment.
+                    </div>
+                </div>
+
+                <!-- FAQ 5 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 cursor-pointer" onclick="toggleAccordion(this)">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-indigo-400"></i> What if I entered the wrong email address during checkout?
+                        </h4>
+                        <i class="fa-solid fa-chevron-down text-slate-500 faq-icon text-xs"></i>
+                    </div>
+                    <div class="faq-content text-xs text-slate-400 leading-relaxed">
+                        No need to worry. Simply contact Susanta Banik via our social channels or drop a comment with your payment receipt ID, and we will manually verify and route the download folders to your correct email address.
+                    </div>
+                </div>
+
+                <!-- FAQ 6 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 cursor-pointer" onclick="toggleAccordion(this)">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-indigo-400"></i> What is your refund policy?
+                        </h4>
+                        <i class="fa-solid fa-chevron-down text-slate-500 faq-icon text-xs"></i>
+                    </div>
+                    <div class="faq-content text-xs text-slate-400 leading-relaxed">
+                        Due to the instant and irreversible delivery nature of digital files, we generally do not offer standard refunds. However, if you experience double-billing or file loading issues, reach out to us and we will promptly resolve it.
+                    </div>
+                </div>
+
+                <!-- FAQ 7 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 cursor-pointer" onclick="toggleAccordion(this)">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-indigo-400"></i> Are these resources suitable for printing physically?
+                        </h4>
+                        <i class="fa-solid fa-chevron-down text-slate-500 faq-icon text-xs"></i>
+                    </div>
+                    <div class="faq-content text-xs text-slate-400 leading-relaxed">
+                        Yes! All materials are self-authored and exported with clear margins, high contrast text alignment, and clean page layouts. They are fully optimized to look excellent when printed for physical study binders.
+                    </div>
+                </div>
+
+                <!-- FAQ 8 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 cursor-pointer" onclick="toggleAccordion(this)">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-indigo-400"></i> What fields and branches do you cover?
+                        </h4>
+                        <i class="fa-solid fa-chevron-down text-slate-500 faq-icon text-xs"></i>
+                    </div>
+                    <div class="faq-content text-xs text-slate-400 leading-relaxed">
+                        We provide companion guides across all branches—not just CS and Engineering. You can request or find books in Medical & Life Sciences, Humanities, Economics, History, General Arts, Civil services preparation, and professional frameworks.
+                    </div>
+                </div>
+
+                <!-- FAQ 9 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 cursor-pointer" onclick="toggleAccordion(this)">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-indigo-400"></i> Why are prices so low (₹49 to ₹1199)?
+                        </h4>
+                        <i class="fa-solid fa-chevron-down text-slate-500 faq-icon text-xs"></i>
+                    </div>
+                    <div class="faq-content text-xs text-slate-400 leading-relaxed">
+                        We believe quality knowledge should be accessible. By removing corporate publishing layers and licensing frameworks, we distribute visual, step-by-step guides at pure student-friendly micro-pricing.
+                    </div>
+                </div>
+
+                <!-- FAQ 10 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 cursor-pointer" onclick="toggleAccordion(this)">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-indigo-400"></i> Can I suggest a specific reference or syllabus to cover?
+                        </h4>
+                        <i class="fa-solid fa-chevron-down text-slate-500 faq-icon text-xs"></i>
+                    </div>
+                    <div class="faq-content text-xs text-slate-400 leading-relaxed">
+                        Yes! Use our custom "Syllabus Companion Request Desk" above. Enter the titles, chapters, or specific topics you need, and our curation pipeline will evaluate and compile them for our store shelf.
+                    </div>
+                </div>
+
+                <!-- FAQ 11 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 cursor-pointer" onclick="toggleAccordion(this)">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-indigo-400"></i> Are these guides authorized by academic colleges?
+                        </h4>
+                        <i class="fa-solid fa-chevron-down text-slate-500 faq-icon text-xs"></i>
+                    </div>
+                    <div class="faq-content text-xs text-slate-400 leading-relaxed">
+                        These are self-authored, independent reference study aids compiled meticulously to align with major global syllabi sequences. They serve as supportive guides for exam preparations and are not official university publications.
+                    </div>
+                </div>
+
+                <!-- FAQ 12 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 cursor-pointer" onclick="toggleAccordion(this)">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-indigo-400"></i> Can I open the folders on my smartphone?
+                        </h4>
+                        <i class="fa-solid fa-chevron-down text-slate-500 faq-icon text-xs"></i>
+                    </div>
+                    <div class="faq-content text-xs text-slate-400 leading-relaxed">
+                        Yes, standard smartphone devices equipped with Google Drive or any native PDF viewer can open, bookmark, and highlight our structured resources easily.
+                    </div>
+                </div>
+
+                <!-- FAQ 13 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 cursor-pointer" onclick="toggleAccordion(this)">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-indigo-400"></i> Do these study packages contain practical examples?
+                        </h4>
+                        <i class="fa-solid fa-chevron-down text-slate-500 faq-icon text-xs"></i>
+                    </div>
+                    <div class="faq-content text-xs text-slate-400 leading-relaxed">
+                        Absolutely. Whether it's coding snippets, electrical diagram layouts, historical maps, or clinical processes—each guide centers around real, practical implementations to avoid sterile memorizations.
+                    </div>
+                </div>
+
+                <!-- FAQ 14 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 cursor-pointer" onclick="toggleAccordion(this)">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-indigo-400"></i> How long does a requested companion take to launch?
+                        </h4>
+                        <i class="fa-solid fa-chevron-down text-slate-500 faq-icon text-xs"></i>
+                    </div>
+                    <div class="faq-content text-xs text-slate-400 leading-relaxed">
+                        Typically, depending on the complexity of the requested syllabus topics, our curation and formatting pipeline takes about 5 to 14 business days to list the new book package on our store shelf.
+                    </div>
+                </div>
+
+                <!-- FAQ 15 -->
+                <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 cursor-pointer" onclick="toggleAccordion(this)">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-indigo-400"></i> How can I contact Susanta Banik for other work?
+                        </h4>
+                        <i class="fa-solid fa-chevron-down text-slate-500 faq-icon text-xs"></i>
+                    </div>
+                    <div class="faq-content text-xs text-slate-400 leading-relaxed">
+                        I am available for freelance full-stack, AI, or data analysis contracts! You can use our customized "Get In Touch" message portal below, or connect directly through my LinkedIn handle linked in the profile card.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: CONTACT FORM -->
+    <section id="contact" class="py-20 bg-slate-950/20 border-t border-slate-800/60 font-medium">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs uppercase font-extrabold text-indigo-400 tracking-wider font-bold">GET IN TOUCH</span>
+                <h2 class="text-3xl font-extrabold text-white mt-1">Let's build something worth building.</h2>
+                <p class="text-slate-400 text-sm mt-2">Whether it's a freelance project, a research collaboration, a request for a book, or just hello — drop a message below and I'll reply personally.</p>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 max-w-2xl mx-auto">
+                <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" onsubmit="handleAjaxSubmit(event, 'contactSuccess')" class="space-y-4">
+                    <!-- WEB3FORMS CONFIGURATION -->
+                    <input type="hidden" name="access_key" value="a93bbdc9-46ea-4f5b-ad4b-7b880a133256">
+                    <input type="hidden" name="subject" value="New Get In Touch Form Submission from Dev Hub">
+                    <input type="hidden" name="from_name" value="Code With Fun Dev Hub Contact">
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-400 mb-1.5">Your Name:</label>
+                            <input type="text" name="name" required placeholder="Susanta Banik" 
+                                   class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-700 focus:outline-none focus:border-indigo-500 transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-400 mb-1.5">Your Email:</label>
+                            <input type="email" name="email" required placeholder="you@domain.com" 
+                                   class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-700 focus:outline-none focus:border-indigo-500 transition">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-400 mb-1.5">Your Message:</label>
+                        <textarea name="message" rows="5" required placeholder="Describe your requirement, project, or custom book request here..." 
+                                  class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-700 focus:outline-none focus:border-indigo-500 transition"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition duration-300">
+                        Send message &rarr;
+                    </button>
+                    
+                    <!-- Secure AJAX Success Alert Banner -->
+                    <div id="contactSuccess" class="hidden mt-4 p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs rounded-xl text-center font-bold">
+                        <i class="fa-solid fa-circle-check mr-1.5"></i> Message delivered successfully! Susanta Banik will reach out to you within 24 hours.
+                    </div>
+                    
+                    <p class="text-[10px] text-slate-500 text-center mt-2">
+                        🔒 Your message is sent securely. I usually reply within 24 hours.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRIVACY POLICY MODAL overlay -->
+    <div id="privacyModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0b1329]/80 backdrop-blur-md hidden transition-opacity duration-300">
+        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh]">
+            <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-2 text-indigo-400 font-bold text-sm">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Privacy Policy</span>
+                </div>
+                <button onclick="closeModal('privacyModal')" class="text-slate-400 hover:text-white transition p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto custom-scrollbar text-xs md:text-sm text-slate-300 space-y-4">
+                <h3 class="text-base font-bold text-white">1. Information Collection</h3>
+                <p>Code With Fun Dev Hub operates solely to provide high-quality digital academic reference resources. We collect voluntary personal identification details (such as names and email addresses) strictly through Web3Forms contact request forms to process support queries, coordinate custom syllabus drafts, and forward feedback coordinates.</p>
+                
+                <h3 class="text-base font-bold text-white">2. Payment Processing</h3>
+                <p>All financial purchase operations are securely compiled and executed entirely on the server modules of Razorpay (India's leading verified gateway provider). Code With Fun Dev Hub does not access, record, or cache credit card, debit card, or UPI banking credentials on our local servers.</p>
+                
+                <h3 class="text-base font-bold text-white">3. Third-Party Interactions</h3>
+                <p>We do not lease, trade, or distribute user identification logs to corporate brokers or outside third-party marketers. Your submission data is used solely to respond to your specific form request.</p>
+                
+                <h3 class="text-base font-bold text-white">4. Secure Direct Storage Links</h3>
+                <p>Upon verification of transactions on Razorpay, direct cloud sharing addresses mapped inside secure Google Drive links are systematically dispatched to your billing coordinates. Download folders are secured and continuously updated under Google security protocols.</p>
+                
+                <h3 class="text-base font-bold text-white">5. Privacy Rights & Contact</h3>
+                <p>You reserve the right to request deletion or modification of any saved message records. If you have concerns, connect directly with Susanta Banik through the Get In Touch form portal or via LinkedIn.</p>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-800 flex justify-end shrink-0">
+                <button onclick="closeModal('privacyModal')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition">Got it, thanks</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TERMS & CONDITIONS MODAL overlay -->
+    <div id="termsModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0b1329]/80 backdrop-blur-md hidden transition-opacity duration-300">
+        <div class="bg-slate-900 border border-slate-800 max-w-2xl w-full rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh]">
+            <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-2 text-indigo-400 font-bold text-sm">
+                    <i class="fa-solid fa-file-contract"></i>
+                    <span>Terms & Conditions</span>
+                </div>
+                <button onclick="closeModal('termsModal')" class="text-slate-400 hover:text-white transition p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto custom-scrollbar text-xs md:text-sm text-slate-300 space-y-4">
+                <h3 class="text-base font-bold text-white">1. License of Use</h3>
+                <p>All digital guides, visual cheat sheets, roadmaps, and reference PDFs obtained from Code With Fun Dev Hub are licensed solely for private, non-commercial self-study use. Reselling, redistribution, republishing, or uploading files onto unauthorized public web indices is strictly prohibited under intellectual property rules.</p>
+                
+                <h3 class="text-base font-bold text-white">2. Delivery Policy</h3>
+                <p>Since the store utilizes immediate direct link mappings, digital purchases are delivered instantly. Directly following payments, a system redirect launches, and secure backup Google Drive links are automatically routed to your billing email. If communication blocks occur, reach out manually with proof of payment.</p>
+                
+                <h3 class="text-base font-bold text-white">3. Refund Restrictions</h3>
+                <p>Due to the irreversible nature of downloadable digital files, all sales are final. Standard refunds are not authorized once download keys have been accessed. In situations of double billing, we resolve issues with manual reconciliations or alternate file distribution.</p>
+                
+                <h3 class="text-base font-bold text-white">4. Academic Disclaimer</h3>
+                <p>All reference materials, summaries, and formula maps are self-authored independent study companions compiled to align visually with popular textbook and academic syllabus outlines. They are not official university curriculum publications, nor are they certified or endorsed by any specific institute.</p>
+                
+                <h3 class="text-base font-bold text-white">5. Modifications of Service</h3>
+                <p>We reserve the right to modify store listings, change micro-pricing scales, or update files within the Google Drive folders to serve our audience. All folder updates are provided free of charge to existing buyers.</p>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-800 flex justify-end shrink-0">
+                <button onclick="closeModal('termsModal')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition">Accept Terms</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN FOOTER -->
+    <footer class="bg-slate-950 py-12 border-t border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-slate-500">
+            <div>
+                <p>© 2026 Code With Fun Dev Hub. Managed by Mr. Susanta Banik. All rights reserved.</p>
+                <p class="mt-1 text-[11px] text-slate-600 font-medium">All roadmaps, templates, and resources are Ccurated learning guides created for visual self-study aid.</p>
+                <!-- Privacy Policy and Terms & Conditions links on the left side of the footer -->
+                <div class="mt-3 flex flex-wrap justify-center md:justify-start gap-3 text-[11px] text-slate-500 font-semibold">
+                    <button onclick="openModal('privacyModal')" class="hover:text-white transition underline underline-offset-2 decoration-slate-700">Privacy Policy</button>
+                    <span>•</span>
+                    <button onclick="openModal('termsModal')" class="hover:text-white transition underline underline-offset-2 decoration-slate-700">Terms & Conditions</button>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 font-semibold shrink-0">
+                <a href="https://pages.razorpay.com/stores/codewithfunDevHub" target="_self" class="hover:text-white transition">Visit Our BookStore</a>
+                <span class="text-slate-800">|</span>
+                <a href="https://youtube.com/@codewithfun-life" target="_blank" class="hover:text-white transition">Official YouTube</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT ENGINE -->
+    <script>
+        // Interactive Mobile Drawer Toggle
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobileMenuDrawer');
+            if (drawer) {
+                drawer.classList.toggle('hidden');
+            }
+        }
+
+        // Collapsible FAQ Accordion Engine
+        function toggleAccordion(element) {
+            const isActive = element.classList.contains('faq-active');
+            
+            // Close all active accordions
+            document.querySelectorAll('#faqs .faq-active').forEach(item => {
+                item.classList.remove('faq-active');
+            });
+
+            // Toggle selected accordion
+            if (!isActive) {
+                element.classList.add('faq-active');
+            }
+        }
+
+        // --- MODAL ENGINE (FOR PRIVACY POLICY & TERMS) ---
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+                // Force a reflow to trigger transition
+                void modal.offsetWidth;
+                modal.classList.add('opacity-100');
+                // Lock background scroll
+                document.body.classList.add('overflow-hidden');
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('opacity-100');
+                modal.classList.add('hidden');
+                // Unlock background scroll
+                document.body.classList.remove('overflow-hidden');
+            }
+        }
+
+        // Close modal when clicking on the backdrop overlay
+        window.addEventListener('click', function(event) {
+            const privacyModal = document.getElementById('privacyModal');
+            const termsModal = document.getElementById('termsModal');
+            if (event.target === privacyModal) {
+                closeModal('privacyModal');
+            }
+            if (event.target === termsModal) {
+                closeModal('termsModal');
+            }
+        });
+
+        // --- SECTION 3: FOUNDER ABOUT ME TAB SWITCHER ---
+        function switchSBTab(tabId) {
+            // Hide all tabs with a fast fade-out
+            document.querySelectorAll('.sb-tab-content').forEach(element => {
+                element.classList.add('hidden');
+                element.classList.remove('tab-transition');
+            });
+            
+            // Show target tab and trigger keyframe transition
+            const target = document.getElementById(tabId);
+            if (target) {
+                target.classList.remove('hidden');
+                // Force reflow to restart animation sequence cleanly
+                void target.offsetWidth; 
+                target.classList.add('tab-transition');
+            }
+
+            // Reset tab button borders
+            document.querySelectorAll('.sb-tab-btn').forEach(btn => {
+                btn.classList.remove('border-indigo-500', 'text-white');
+                btn.classList.add('border-transparent', 'text-slate-400');
+            });
+            // Highlight selected button
+            const activeBtn = document.getElementById('btn-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('border-indigo-500', 'text-white');
+                activeBtn.classList.remove('border-transparent', 'text-slate-400');
+            }
+        }
+
+        // --- SECURE AJAX WEB3FORMS SUBMISSION GATEWAY ---
+        // Prevents unstyled third-party redirects and handles inline loaders securely on browser runtime
+        async function handleAjaxSubmit(event, successContainerId) {
+            event.preventDefault();
+            const form = event.target;
+            const data = new FormData(form);
+            const successMsg = document.getElementById(successContainerId);
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+
+            // Activate Loader State
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch animate-spin mr-2"></i> Sending Securely...';
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: data,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    form.reset();
+                    successMsg.classList.remove('hidden');
+                    submitBtn.innerHTML = '<i class="fa-solid fa-circle-check mr-2"></i> Delivered!';
+                    setTimeout(() => {
+                        successMsg.classList.add('hidden');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnText;
+                    }, 8000);
+                } else {
+                    const result = await response.json();
+                    alert(result.errors ? result.errors.map(e => e.message).join(", ") : "Unable to deliver message. Please retry later.");
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }
+            } catch (error) {
+                alert("Network error encountered. Please check your internet connection and try again.");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+        }
+
+        // --- SECTION 5: DYNAMIC YEARLY AGE CALCULATOR ---
+        // Dynamically calculates age on load without exposing birth date variables in UI HTML
+        function calculateAge() {
+            // Birthday: October 20, 2006
+            const birthYear = 2006;
+            const birthMonth = 9; // October is 9 (0-indexed)
+            const birthDay = 20;
+
+            const today = new Date();
+            let age = today.getFullYear() - birthYear;
+            const currentMonth = today.getMonth();
+            const currentDay = today.getDate();
+
+            if (currentMonth < birthMonth || (currentMonth === birthMonth && currentDay < birthDay)) {
+                age--;
+            }
+            return age;
+        }
+
+        // Initial setup sequence on window load
+        window.onload = function() {
+            // Set Dynamic Age value (Calculated silently with absolutely no hardcoded UI '19' in raw HTML)
+            const ageVal = calculateAge();
+            const ageElement = document.getElementById('sb-age');
+            if (ageElement) {
+                ageElement.innerText = ageVal;
+                // Remove placeholder pulsing once calculated
+                ageElement.classList.remove('animate-pulse');
+            }
+
+            // Smoothly dissolve skeleton loader overlay
+            const skeletonOverlay = document.getElementById('globalSkeletonScreen');
+            if (skeletonOverlay) {
+                skeletonOverlay.classList.add('opacity-0');
+                skeletonOverlay.classList.remove('pointer-events-auto');
+                skeletonOverlay.classList.add('pointer-events-none');
+                
+                // Completely free resources after animation completes
+                setTimeout(() => {
+                    skeletonOverlay.style.display = 'none';
+                }, 750);
+            }
+        }
+    </script>
+</body>
+</html>
